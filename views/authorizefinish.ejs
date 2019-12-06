@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>authorizedfinish<%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+  	<div class="authorize-img" style="text-align: center;">
+  		<%if(title == 'success'){%>
+  		<img src="/images/authorize_success.png">
+  		<%}else{%>
+  		<img src="/images/authorize_fail.png">
+  		<%}%>
+  	</div>
+    <h1 class="auth-finish-title"><%= title %></h1>
+    <p class="auth-finish-p">授权<%= text %></p>
+  </body>
+</html>

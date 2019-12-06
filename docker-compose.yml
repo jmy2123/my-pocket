@@ -1,0 +1,5 @@
+wechaty:
+  image: 'zixia/wechaty:latest'
+  volumes:
+    - ./:/bot
+  restart: always

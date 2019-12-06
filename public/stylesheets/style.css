@@ -1,0 +1,26 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+.authorize-img {
+  text-align: center;
+}
+.auth-finish-title {
+  text-align: center;
+  font-size: 35px;
+  color: rgb(3,125,213);
+  position: relative;
+  left: 10px;
+}
+.auth-finish-p {
+  text-align: center;
+  font-size: 28px;
+  color: rgb(3,125,213);
+  color: rgba(85, 85, 85, 0.6);
+  position: relative;
+  left: 10px;
+}

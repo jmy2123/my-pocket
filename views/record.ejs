@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>数据统计</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <style type="text/css">
+    .title-big {width: 50%; font-size: 24px; line-height: 50px; border-bottom: 1px solid #cacaca;color: #5dcfca;}
+    .auth-finish-title {text-align: left;font-size: 18px; color: #555;}
+    .auth-finish-title em {color: #ccc;}
+    .canvas { height:400px; margin-bottom: 50px;}
+    #canvasConsumer canvas{height: 400px !important; max-width: 800px;} 
+    #canvasArticle canvas {height: 400px !important; max-width: 800px;}   
+  </style>
+  <body>
+    <h1 class="title-big">savePocket数据统计</h1>
+    <h4 class="auth-finish-title"><%= titleConsumer %> <em>总数：<%= consumberTotal %></em></h4>
+    <p style="display: none;" id="p-consumer" class="auth-finish-p"><%= dataConsumer %></p>
+    <div class="canvas" id="canvasConsumer"><canvas id="myChartConsumer" width="600" height="400"></canvas></div>
+
+    <h4 class="auth-finish-title"><%= titleArticle %> <em>总数：<%= articleTotal %></em></h4>
+    <p style="display: none;" id="p-article" class="auth-finish-p"><%= dataArticle %></p>
+    <div class="canvas" id="canvasArticle"><canvas id="myChartArticle" width="600" height="400"></canvas></div>
+  </body>
+  <script type="text/javascript" src="/javascripts/Chart.bundle.js"></script>
+  <script src="/javascripts/Chart.bundle.min.js"></script>
+  <script type="text/javascript">
+  'use strict';
+  /* jshint node: true */
+
+  // 用户数据统计
+  var lablesConsumer = [];
+  var datasConsumer = [];
+  var resultConsumer = document.getElementById("p-consumer").innerHTML;
+  
+  console.log('result:' + JSON.parse(resultConsumer));
+
+  resultConsumer = JSON.parse(resultConsumer);
+  
+  for (var k in resultConsumer){
+    console.log('resultConsumer[' + k +']:' + resultConsumer[k]._id);
+    if (k < 15) {
+      resultConsumer[k]._id = resultConsumer[k]._id ? resultConsumer[k]._id.split('T')[0] : 0;
+      lablesConsumer.unshift(resultConsumer[k]._id ? resultConsumer[k]._id : 0);
+      datasConsumer.unshift(resultConsumer[k].uv ? resultConsumer[k].uv : 0);
+    }
+  }
+
+  console.log('resultConsumer:' + JSON.stringify(resultConsumer));
+
+  // 数据结构（数据参数设置）
+  var dataConsumer = {
+    labels: lablesConsumer,
+    datasets: [{
+        label: "用户数据",
+        fillColor: "rgba(220,220,220,0.5)",
+        strokeColor: "rgba(220,220,220,1)",
+        pointColor: "rgba(220,220,220,1)",
+        pointStrokeColor: "#fff",
+        pointHighlightFill: "rgba(220,220,220,1)",
+        pointHighlightStroke: "rgba(220,220,220,1)",
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.6)',
+          'rgba(54, 162, 235, 0.6)',
+          'rgba(255, 206, 86, 0.6)',
+          'rgba(75, 192, 192, 0.6)',
+          'rgba(153, 102, 255, 0.6)',
+          'rgba(255, 159, 64, 0.6)',
+          'rgba(255, 99, 132, 0.6)',
+          'rgba(54, 162, 235, 0.6)',
+          'rgba(255, 206, 86, 0.6)',
+          'rgba(75, 192, 192, 0.6)',
+          'rgba(153, 102, 255, 0.6)'
+        ],
+        data: datasConsumer
+    }]
+  };
+  var ctx = document.getElementById("myChartConsumer").getContext("2d");
+  var ConsumerChart = new Chart(ctx, {
+    type: 'bar',
+    data: dataConsumer
+  });
+
+
+  // 文章数据统计
+  var lablesArticle = [];
+  var datasArticle = [];
+  var resultArticle = document.getElementById("p-article").innerHTML;
+  console.log('result:' + JSON.parse(resultArticle));
+
+  resultArticle = JSON.parse(resultArticle);
+  for (var k in resultArticle){
+    console.log('resultArticle[' + k +']:' + resultArticle[k]._id);
+    if (k < 15) {
+      resultArticle[k]._id = resultArticle[k]._id ? resultArticle[k]._id.split('T')[0] : 0;
+      lablesArticle.unshift(resultArticle[k]._id ? resultArticle[k]._id : 0);
+      datasArticle.unshift(resultArticle[k].pv ? resultArticle[k].pv : 0);
+    } 
+  }
+  console.log('resultArticle:' + JSON.stringify(resultArticle));
+
+  // 数据结构（数据参数设置）
+  var dataArticle = {
+    labels: lablesArticle,
+    datasets: [{
+        label: "文章数据",
+        fillColor : "rgba(151,187,205,0.5)",
+        strokeColor : "rgba(151,187,205,1)",
+        pointColor : "rgba(151,187,205,1)",
+        pointStrokeColor : "#fff",
+        pointHighlightFill: "#339933",
+        pointHighlightStroke: "rgba(220,220,220,1)",
+        backgroundColor: [
+        'rgba(255, 99, 132, 0.6)'
+        ],
+        data: datasArticle
+    }]
+  };
+  var ctx = document.getElementById("myChartArticle").getContext("2d");
+  var ArticleChart = new Chart(ctx, {
+    type: "line",
+    data: dataArticle,
+    options: {
+      scaleShowLabels : false,
+    } 
+  });
+
+  </script>
+</html>
